@@ -15,9 +15,9 @@ class SnackTests(APITestCase):
         testuser1.save()
 
         test_snack = Snack.objects.create(
-            name="pizza",
+            name="Protein bar",
             owner=testuser1,  
-            description="Saucy.",
+            description="nut free and delicious!",
         )
         test_snack.save()
 
@@ -27,9 +27,9 @@ class SnackTests(APITestCase):
         actual_name = str(snack.name)
         actual_description = str(snack.description)
         self.assertEqual(actual_owner, "testuser1")
-        self.assertEqual(actual_name, "pizza")
+        self.assertEqual(actual_name, "Protein bar")
         self.assertEqual(
-            actual_description, "Saucy."
+            actual_description, "nut free and delicious!"
         )
 
     def test_get_snack_list(self):
@@ -38,18 +38,18 @@ class SnackTests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         snacks = response.data
         self.assertEqual(len(snacks), 1)
-        self.assertEqual(snacks[0]["name"], "pizza")
+        self.assertEqual(snacks[0]["name"], "Protein bar")
 
     def test_get_snack_by_id(self):
         url = reverse("snack_detail", args=(1,))
         response = self.client.get(url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         snack = response.data
-        self.assertEqual(snack["name"], "pizza")
+        self.assertEqual(snack["name"], "Protein bar")
 
     def test_create_snack(self):
         url = reverse("snack_list")
-        data = {"owner": 1, "name": "chips", "description": "Crunchy and delicious potato chips."}  # Change 'purchaser' to 'owner'
+        data = {"owner": 1, "name": "chips", "description": "Crunchy and delicious potato chips."} 
         response = self.client.post(url, data)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         snacks = Snack.objects.all()
@@ -60,8 +60,8 @@ class SnackTests(APITestCase):
         url = reverse("snack_detail", args=(1,))
         data = {
             "owner": 1, 
-            "name": "pizza",
-            "description": "Saucy.",
+            "name": "Protein bar",
+            "description": "nut free and super delicious!",
         }
         response = self.client.put(url, data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)

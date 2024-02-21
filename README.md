@@ -1,4 +1,8 @@
-# Project:  Snacks API
+# Lab-Class 31-32
+
+## Project:  Snacks API
+
+Django Rest Framework, Docker Container, Postgresql
 
 ## Author: Negin Koushkakinejad
 
@@ -19,6 +23,11 @@ docker-compose build
 docker-compose up -d
 
 docker-compose exec web python manage.py migrate
+
+## How to Initialize/Run Your Application
+
+Navigate to url/api/v1/snacks/ to navigate to API
+
 
 How to Run Tests:
 

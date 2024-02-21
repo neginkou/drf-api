@@ -1,15 +1,15 @@
-from rest_framework import generics
-from .serializers import SnackSerializer
+from rest_framework.generics import ListCreateAPIView, RetrieveDestroyAPIView
 from .models import Snack
-from django.http import HttpResponse
+from .serializers import SnackSerializer
+from .permissions import IsOwnerOrReadOnly
 
-class SnackList(generics.ListCreateAPIView):
+class SnackList(ListCreateAPIView):
     queryset = Snack.objects.all()
+
     serializer_class = SnackSerializer
 
-class SnackDetail(generics.RetrieveUpdateDestroyAPIView):
+class SnackDetail(RetrieveDestroyAPIView):
     queryset = Snack.objects.all()
+    
     serializer_class = SnackSerializer
-
-def home(request):
-    return HttpResponse("Welcome to the Snacks API! Access the API at /api/v1/snacks/")
+    permission_classes = (IsOwnerOrReadOnly,)

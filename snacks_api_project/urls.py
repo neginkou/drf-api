@@ -14,12 +14,17 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.urls import path, include
-from snacks.views import home
 from django.contrib import admin
+from django.urls import path, include
+from django.http import HttpResponse
+
+def home(request):
+    return HttpResponse("Welcome to the Snacks API!")
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/v1/snacks/', include('snacks.urls')),
-    path('', home, name='home'),  # Add this line for the root URL
+    path('api/v1/snacks/', include("snacks.urls")),
+    path('api-auth/', include('rest_framework.urls')),
+    path('accounts/', include('django.contrib.auth.urls')),
+    path('', home, name='home'),
 ]
