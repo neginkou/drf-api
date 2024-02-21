@@ -48,8 +48,9 @@ class SnackTests(APITestCase):
         self.assertEqual(snack["name"], "Protein bar")
 
     def test_create_snack(self):
+        self.client.login(username="testuser1", password="pass")
         url = reverse("snack_list")
-        data = {"owner": 1, "name": "chips", "description": "Crunchy and delicious potato chips."} 
+        data = {"owner": 1, "name": "chips", "description": "Crunchy and delicious potato chips."}
         response = self.client.post(url, data)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         snacks = Snack.objects.all()
@@ -57,20 +58,23 @@ class SnackTests(APITestCase):
         self.assertEqual(Snack.objects.get(id=2).name, "chips")
 
     def test_update_snack(self):
+        self.client.login(username="testuser1", password="pass")
         url = reverse("snack_detail", args=(1,))
+        testuser1_id = get_user_model().objects.get(username="testuser1").id
         data = {
-            "owner": 1, 
-            "name": "Protein bar",
-            "description": "nut free and super delicious!",
+            "owner": testuser1_id,
+            "name": "Updated Protein Bar",
+            "description": "Updated description",
         }
-        response = self.client.put(url, data)
+        response = self.client.put(url, data, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         snack = Snack.objects.get(id=1)
-        self.assertEqual(snack.name, data["name"])
-        self.assertEqual(snack.owner.id, data["owner"]) 
-        self.assertEqual(snack.description, data["description"])
+        self.assertEqual(snack.name, "Updated Protein Bar")
+        self.assertEqual(snack.description, "Updated description")
+
 
     def test_delete_snack(self):
+        self.client.login(username="testuser1", password="pass")
         url = reverse("snack_detail", args=(1,))
         response = self.client.delete(url)
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
