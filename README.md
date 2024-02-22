@@ -1,8 +1,8 @@
-# Lab-Class 31-32
+# Lab-Class 31-32-33
 
 ## Project:  Snacks API
 
-Django Rest Framework, Docker Container, Postgresql
+Django Rest Framework, Docker Container, Postgresql and JWT Authentication
 
 ## Author: Negin Koushkakinejad
 
@@ -16,11 +16,20 @@ pip install -r requirements.txt
 
 python manage.py migrate
 
+Install Gunicorn - pip install gunicorn
+
+static files with Gunicorn - install Whitenoise
+
 Docker Setup:
 
 docker-compose build
 
 docker-compose up -d
+
+To start the server by building and running the Docker container - docker-compose build
+docker-compose up
+
+To stop the running container - docker-compose down
 
 docker-compose exec web python manage.py migrate
 
